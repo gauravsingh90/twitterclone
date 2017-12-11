@@ -20,13 +20,13 @@ defmodule TwittercloneWeb.RoomChannel do
     {:reply, :ok, socket}
   end
 
-  def handle_in("addTweet",message, socket) do
+  def handle_in("addTweet",%{"payload" => tweet}, socket) do
     IO.puts "++++++"
-    IO.inspect message
+    IO.inspect tweet
     IO.puts "end"
     # IO.inspect socket
     username_="Gaurav"
-    tweet="as as as as asas"
+    # tweet="as as as as asas"
     reply =  GenServer.call(Mainserver,{:find_add_tweet,username_,tweet})
     IO.puts reply
     {:reply, :ok, socket}

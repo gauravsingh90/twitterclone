@@ -111,6 +111,7 @@ defmodule Twi do
     case Process.whereis(:"#{username}") do
       nil ->
         IO.puts "Please enter the correct UserName. Username not found in database"
+        IO.puts tweet
       _ ->
         # IO.puts "Genserver call called from server_client"
         reply = GenServer.cast(:"#{username}",{:send_retweet, tweet})

@@ -10,4 +10,4 @@
 <button id ="login"> login</button>
 </br>
 <button id ="addTweet"> AddTweet</button>
-<input id ="addTweetText" type="text" name=addTweetText value="asdhak">
+<input id =addTweetText type="text" ></input>

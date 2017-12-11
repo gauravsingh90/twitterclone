@@ -72,13 +72,13 @@ channel1.join()
 
   // })
   let channel2 = socket.channel("room:addTweet", {})
+  let tweetContent = document.querySelector("#addTweetText")
   channel2.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
-  var tweetContent =  document.getElementById("addTweetText")
   document.getElementById("addTweet").addEventListener('click',function(){
-    channel2.push("addTweet", { user:document.getElementById("addTweetText").nodeValue})
+    channel2.push("addTweet", {payload: tweetContent.value})
 
 })
 
