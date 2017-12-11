@@ -54,9 +54,34 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
+let channel1 = socket.channel("room:register", {})
+let passwordid= document.querySelector("#password")
+channel1.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+
+
+  var loginid = document.getElementById("usr")
+  document.getElementById("register").addEventListener('click',function(){
+    channel1.push("register", {hi: 'handle!'})
+  })
+
+  // document.getElementById("login").addEventListener('click',function(){
+  //     channel.push("login", { user:document.getElementById("usr").nodeValue,
+  //     password:passwordid.value})
+
+  // })
+  let channel2 = socket.channel("room:addTweet", {})
+  channel2.join()
+  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+  var tweetContent =  document.getElementById("addTweetText")
+  document.getElementById("addTweet").addEventListener('click',function(){
+    channel2.push("addTweet", { user:document.getElementById("addTweetText").nodeValue})
+
+})
+
+  
 
 export default socket
