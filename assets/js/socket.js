@@ -53,6 +53,7 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 
 socket.connect()
 
+//--------------->>>>> REGISTER channel<<<<<---------------------
 // Now that you are connected, you can join channels with a topic:
 let channel1 = socket.channel("room:register", {})
 let passwordid= document.querySelector("#password")
@@ -66,11 +67,7 @@ channel1.join()
     channel1.push("register", {hi: 'handle!'})
   })
 
-  // document.getElementById("login").addEventListener('click',function(){
-  //     channel.push("login", { user:document.getElementById("usr").nodeValue,
-  //     password:passwordid.value})
-
-  // })
+  //--------------->>>>> TWEET channel<<<<<---------------------
   let channel2 = socket.channel("room:addTweet", {})
   let tweetContent = document.querySelector("#addTweetText")
   channel2.join()
@@ -82,6 +79,40 @@ channel1.join()
 
 })
 
-  
+//--------------->>>>> RETWEET channel<<<<<---------------------
+let channel3 = socket.channel("room:ReaddTweet", {})
+let tweetContent = document.querySelector("#ReTweetText")
+channel2.join()
+.receive("ok", resp => { console.log("Joined successfully", resp) })
+.receive("error", resp => { console.log("Unable to join", resp) })
+
+document.getElementById("addTweet").addEventListener('click',function(){
+  channel2.push("addTweet", {payload: tweetContent.value})
+
+})
+ 
+//--------------->>>>> FOLLOW channel<<<<<----------------------
+let channel4 = socket.channel("room:follow", {})
+let tweetContent = document.querySelector("#follow")
+channel2.join()
+.receive("ok", resp => { console.log("Joined successfully", resp) })
+.receive("error", resp => { console.log("Unable to join", resp) })
+
+document.getElementById("follow").addEventListener('click',function(){
+  channel2.push("follow", {payload: tweetContent.value})
+
+})
+//--------------->>>>> LOGIN channel<<<<<-----------------------
+let channel3 = socket.channel("room:login", {})
+let tweetContent = document.querySelector("#login")
+channel2.join()
+.receive("ok", resp => { console.log("Joined successfully", resp) })
+.receive("error", resp => { console.log("Unable to join", resp) })
+
+document.getElementById("login").addEventListener('click',function(){
+  channel2.push("logout", {payload: tweetContent.value})
+
+})
+//--------------->>>>> LOGOUT channel<<<<<----------------------
 
 export default socket
