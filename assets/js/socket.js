@@ -66,14 +66,22 @@ channel.join()
   $("#btn_register").click(function(){
     var username_ = document.querySelector("#usr").value
     var password_= document.querySelector("#password").value
-    channel.push("register", {username: username_,password: password_})
+    channel.push("register", {username: username_,password: password_}).receive(
+      "ok", (reply) => switchToHome(reply.reply)
+     )
   })
 
-  channel.on("registration_status", payload => {
-    let messageItem = document.createElement("li");
-    messageItem.innerText = `[${Date()}] ${payload.body}`
-    messagesContainer.appendChild(messageItem)
-  })
+
+  function switchToHome(user) {
+    $("#ctn-login").hide();
+    $("#ctn-homepage").show();
+    $("#div-greet-user").html("Welcome "+user.username)
+    $("#hidden-user").value(user.username)
+    user.homepage
+
+
+  }
+  
 
   //--------------->>>>> TWEET channel<<<<<---------------------
    document.getElementById("btn_add_tweet").addEventListener('click',function(){

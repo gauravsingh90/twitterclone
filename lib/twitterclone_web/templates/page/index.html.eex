@@ -1,6 +1,6 @@
 <div class="row">
   <div id="splScreen" class="col-sm-8 offset-sm-2 cl-top-spacer">
-    <span class="display-4">Welcome to our twitter clone</span>
+    <span class="display-4" id="div-greet-user">Welcome to our twitter clone</span>
     </div>
 </div>
 <div class="row cl-top-spacer" id="ctn-login">
@@ -11,7 +11,10 @@
    <button class="col-sm-1 offset-sm-5 cl-top-spacer" id ="btn_login">Login</button>
    <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_register">Signup</button> 
 </div>
-<div class="row cl-top-spacer" id="ctn-login">
+
+<div class="row cl-top-spacer" id="ctn-homepage" style="display:none;">
+  <input style="display:none;" id="hidden-user"></input>
+  <span></span>
     <label class="col-sm-1 offset-sm-3">Username</label><input  style="margin-bottom: auto;" class="col-sm-4 offset-sm-1" type="text" name="username" id=usr>
     <span class="cl-top-spacer"></span>
     <label class="col-sm-1 offset-sm-3 ">Password</label><input  class="col-sm-4 offset-sm-1" type="text" name="password" id=password>

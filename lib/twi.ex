@@ -13,10 +13,12 @@ defmodule Twi do
     username_ =
     case Enum.member?(users,username) do
       false -> GenServer.start_link(Client,user, name: username)
-      reply_= "User Account : #{username |> to_string} created" 
+      # reply_= "User Account : #{username |> to_string} created" 
+      reply_=user
         [username]
       true -> 
-        reply_="!!! User Account : #{username |> to_string} already exits. Try changing username."
+        # reply_="!!! User Account : #{username |> to_string} already exits. Try changing username."
+        reply_=user
         []
     end
   {:reply, reply_, %Server{server | users: (users ++ username_)}}
