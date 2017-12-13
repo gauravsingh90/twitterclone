@@ -6,19 +6,20 @@ defmodule Twi do
   def start_link(args, args2, args3) do
     GenServer.start_link(Twi, %Server{users: [], hashtags: %{}}, name: Mainserver)
   end
+
   ### --- CALL BACK FUNCTION RECEIVED FROM THE CLIENT ON SERVER MODULE --- ##
   ## handle call for register
-  def handle_cast({:register, %User{username: username}=user}, %Server{users: users} = server) do
+  def handle_call({:register, %User{username: username}=user},_from, %Server{users: users} = server) do
     username_ =
     case Enum.member?(users,username) do
       false -> GenServer.start_link(Client,user, name: username)
-        IO.puts("User Account : #{username |> to_string} created ")
+      reply_= "User Account : #{username |> to_string} created" 
         [username]
       true -> 
-        IO.puts("!!! User Account : #{username |> to_string} already exits. Try changing username.")
+        reply_="!!! User Account : #{username |> to_string} already exits. Try changing username."
         []
     end
-  {:noreply, %Server{server | users: (users ++ username_)}}
+  {:reply, reply_, %Server{server | users: (users ++ username_)}}
   end
    # 
    # 

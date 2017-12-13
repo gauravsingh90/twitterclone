@@ -63,10 +63,16 @@ channel.join()
 
 
   //--------------->>>>> REGISTER channel<<<<<---------------------
-  document.getElementById("btn_register").addEventListener('click',function(){
+  $("#btn_register").click(function(){
     var username_ = document.querySelector("#usr").value
     var password_= document.querySelector("#password").value
     channel.push("register", {username: username_,password: password_})
+  })
+
+  channel.on("registration_status", payload => {
+    let messageItem = document.createElement("li");
+    messageItem.innerText = `[${Date()}] ${payload.body}`
+    messagesContainer.appendChild(messageItem)
   })
 
   //--------------->>>>> TWEET channel<<<<<---------------------
