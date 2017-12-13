@@ -33,10 +33,10 @@ defmodule Twi do
   end
 
    # 
-    # 
-    # 
-    # 
-    # 7 HASHTAGS
+   # 
+   # 
+   # 
+   # 7 HASHTAGS
   def handle_cast({:add_hashtags,newHashtag,tweet}, %Server{hashtags: existingHashtags} = server) do
   #  IO.puts("Reached Hashtag main")
   newMap_= case Map.has_key?(existingHashtags,newHashtag) do
@@ -67,17 +67,17 @@ defmodule Twi do
         # IO.puts "Please enter the correct UserName. Username not found in database"
         "Please enter the correct UserName. Username not found in database"
       _ ->
-       reply =  GenServer.call(:"#{username}",{:login_client,password})  
+         GenServer.call(:"#{username}",{:login_client,password})  
     end
     {:reply,reply_,state}
   end
 
   def handle_call({:logout,username}, _from, state) do
-    case Process.whereis(:"#{username}") do
+    reply_ = case Process.whereis(:"#{username}") do
       nil ->
-        IO.puts "Please enter the correct UserName. Username not found in database"
+        "Please enter the correct UserName. Username not found in database"
       _ ->
-       reply =  GenServer.call(:"#{username}",:logout_client)  
+        GenServer.call(:"#{username}",:logout_client)  
     end
     {:reply,reply,state}
   end
@@ -96,27 +96,26 @@ defmodule Twi do
 
   def handle_call({:follow_user,username,to_follow},_from,state) do
     # IO.puts "Inside follow"
-    case Process.whereis(:"#{to_follow}") do
+    reply_ = case Process.whereis(:"#{to_follow}") do
       nil ->
-        IO.puts "Please enter the correct UserName. Username not found in database"
+        "Please enter the correct UserName. Username not found in database"
       _ ->
         # IO.puts "Genserver call called from server_client"
-        reply = GenServer.call(:"#{to_follow}",{:client_follow, username})
+        GenServer.call(:"#{to_follow}",{:client_follow, username})
     end
-    {:reply,reply,state}
+    {:reply,reply_,state}
   end
 
   def handle_call({:retweet,username,tweet},_from,state) do
     # IO.puts "Inside Retweet"
-    case Process.whereis(:"#{username}") do
+    reply_ = case Process.whereis(:"#{username}") do
       nil ->
-        IO.puts "Please enter the correct UserName. Username not found in database"
-        IO.puts tweet
+        "Please enter the correct UserName. Username not found in database"
       _ ->
         # IO.puts "Genserver call called from server_client"
-        reply = GenServer.cast(:"#{username}",{:send_retweet, tweet})
+        GenServer.cast(:"#{username}",{:send_retweet, tweet})
     end
-    {:reply,reply,state}
+    {:reply,reply_,state}
   end
  
   # ________________________________________________
@@ -124,13 +123,13 @@ defmodule Twi do
   # ________________________________________________
 
   def handle_call({:fetch_mention,username}, _from, state) do
-    case Process.whereis(:"#{username}") do
+    reply_ = case Process.whereis(:"#{username}") do
       nil ->
-        IO.puts "Please enter the correct UserName. Username not found in database"
+        "Please enter the correct UserName. Username not found in database"
       _ ->
-       reply =  GenServer.call(:"#{username}",:get_mention)  
+        GenServer.call(:"#{username}",:get_mention)  
     end
-    {:reply,reply,state}
+    {:reply,reply_,state}
   end
 
   def handle_call({:fetch_hashtags,hashtag}, _from,  %Server{hashtags: existingHashtags} = server) do
@@ -141,36 +140,31 @@ defmodule Twi do
     #   _ ->
     #    reply =  GenServer.call(:"#{username}",{:get_hashtags,password})  
     # end
-    case Map.has_key?(existingHashtags,hashtag) do
+    reply_ = case Map.has_key?(existingHashtags,hashtag) do
       false -> 
        # IO.puts("Reached New Hashtag")
        # IO.inspect existingHashtags
        # IO.inspect newHashtag
        # IO.inspect tweet
       #  newMap_= Map.put_new(existingHashtags,newHashtag,[tweet])
-       {:reply,"No matching hashtags found.",server}
+       "No matching hashtags found."
      true -> 
        # IO.puts("Reached Hashtag old")
        #IO.inspect existingHashtags
-       temp = Map.get(existingHashtags,hashtag)
-       {:reply,temp,server}
+       Map.get(existingHashtags,hashtag)
+      #  {:reply,reply_,server}
    end
-
-   
+   {:reply,reply_,server}
   end
 
   def handle_call({:fetch_userHomepage,username}, _from, server) do
-    case Process.whereis(:"#{username}") do
+    reply_ = case Process.whereis(:"#{username}") do
       nil ->
         IO.puts "Please enter the correct UserName. Username not found in database"
-        {:reply,"Please enter the correct UserName. Username not found in database",server}
+        # {:reply,"Please enter the correct UserName. Username not found in database",server}
       _ ->
-       reply_ =  GenServer.call(:"#{username}",:get_userHomepage)  
-       {:reply,reply_,server}
+       GenServer.call(:"#{username}",:get_userHomepage)  
     end
-    
+    {:reply,reply_,server}
   end
-
-
-  
 end
