@@ -2,7 +2,7 @@ defmodule TwittercloneWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", TwittercloneWeb.RoomChannel
+  channel "server:*", TwittercloneWeb.ServerChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

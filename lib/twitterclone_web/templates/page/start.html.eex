@@ -3,12 +3,11 @@
  <form>
   First name:<br>
   <input type="text" name="username" id=usr><br>
-  Password:<br><br>
+  Last name:<br>
   <input id =password type="text" name=password >
 </form> 
-<button id="btn_register">Sign up!</button>
-<button id ="btn_login"> login</button>
+<button id="register">Sign up!</button>
+<button id ="login"> login</button>
 </br>
-<button id ="btn_add_tweet"> AddTweet</button>
-<button id ="btn_add_retweet"> ReTweet</button>
+<button id ="addTweet"> AddTweet</button>
 <input id =addTweetText type="text" ></input>
