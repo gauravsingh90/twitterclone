@@ -65,44 +65,43 @@ channel.join()
   //--------------->>>>> REGISTER channel<<<<<---------------------
   document.getElementById("btn_register").addEventListener('click',function(){
     var username_ = document.querySelector("#usr").value
-    let password_= document.querySelector("#password").value
+    var password_= document.querySelector("#password").value
     channel.push("register", {username: username_,password: password_})
   })
 
   //--------------->>>>> TWEET channel<<<<<---------------------
    document.getElementById("btn_add_tweet").addEventListener('click',function(){
     var username_ = document.querySelector("#usr").value
-    let tweetContent_ = document.querySelector("#addTweetText").value
+    var tweetContent_ = document.querySelector("#addTweetText").value
     channel.push("addTweet", {username: username_,tweet: tweetContent_})
 })
 
 //--------------->>>>> RETWEET channel<<<<<---------------------
 document.getElementById("btn_add_retweet").addEventListener('click',function(){
   var username_ = document.querySelector("#usr").value
-  let tweetContent_ = document.querySelector("#addTweetText").value
-  channel.push("retweet", {payload: tweetContent_})
+  var tweetContent_ = document.querySelector("#addTweetText").value
+  channel.push("retweet", {username: username_,tweet: tweetContent_})
 
 })
  
 //--------------->>>>> FOLLOW channel<<<<<----------------------
-document.getElementById("follow").addEventListener('click',function(){
+document.getElementById("btn_follow").addEventListener('click',function(){
   var username_ = document.querySelector("#usr").value
-  let tweetContent_ = document.querySelector("#addTweetText").value
-  channel.push("follow", {payload: tweetContent.value})
+  var to_follow_ = document.querySelector("#addTweetText").value
+  channel.push("follow", {username: username_,to_follow: to_follow_})
 
 })
 
-// //--------------->>>>> LOGIN channel<<<<<-----------------------
-// let channel3 = socket.channel("room:login", {})
-// // let tweetContent = document.querySelector("#login")
-// channel2.join()
-// .receive("ok", resp => { console.log("Joined successfully", resp) })
-// .receive("error", resp => { console.log("Unable to join", resp) })
-
-// document.getElementById("login").addEventListener('click',function(){
-//   channel2.push("logout", {payload: tweetContent.value})
-
-// })
+//--------------->>>>> LOGIN channel<<<<<-----------------------
+document.getElementById("btn_login").addEventListener('click',function(){
+  var username_ = document.querySelector("#usr").value
+  var password_= document.querySelector("#password").value
+  channel.push("login", {username: username_,password: password_})
+})
 //--------------->>>>> LOGOUT channel<<<<<----------------------
-
+document.getElementById("btn_logout").addEventListener('click',function(){
+  var username_ = document.querySelector("#usr").value
+  // var password_= document.querySelector("#password").value
+  channel.push("logout", {username: username_})
+})
 export default socket

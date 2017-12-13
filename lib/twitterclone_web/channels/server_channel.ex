@@ -19,44 +19,24 @@ defmodule TwittercloneWeb.ServerChannel do
   end
   #--------------->>>>> ADD RETWEET HANDLE IN <<<<<----------------------
   def handle_in("retweet",%{"username" => username_,"tweet" => tweet_}, socket) do
-
-    reply =  reply = GenServer.call(username_,{:retweet,username_,tweet_})
+    reply =  reply = GenServer.call(Mainserver,{:retweet,username_,tweet_})
     {:reply, :ok, socket}
   end
   #--------------->>>>> FOLLOW HANDLE IN <<<<<----------------------
-  def handle_in("follow",%{"username" => username_,"tweet" => tweet_}, socket) do
-    # IO.inspect tweet
-    # IO.inspect socket
-    username_="Gaurav"
-    # tweet="as as as as asas"
-    # reply =  GenServer.call(pid,{:follow_user,username_,to_follow})
-    # IO.puts reply
+  def handle_in("follow",%{"username" => username_,"to_follow" => to_follow_}, socket) do
+    reply =  GenServer.call(Mainserver,{:follow_user,username_,to_follow_})
     {:reply, :ok, socket}
   end
   
   #--------------->>>>> LOGIN HANDLE IN <<<<<----------------------
-  def handle_in("addTweet",%{"username" => username_,"password" => password_}, socket) do
-    # IO.puts "++++++"
-    # IO.inspect tweet
-    # IO.puts "end"
-    # # IO.inspect socket
-    # username_="Gaurav"
-    # tweet="as as as as asas"
-    # reply =  reply = GenServer.call(pid,{:login,username_,password_})
-    # IO.puts reply
+  def handle_in("login",%{"username" => username_,"password" => password_}, socket) do
+    reply =  reply = GenServer.call(Mainserver,{:login,username_,password_})
     {:reply, :ok, socket}
   end
 
   #--------------->>>>> LOGOUT HANDLE IN <<<<<----------------------
-  def handle_in("addTweet",%{"payload" => tweet}, socket) do
-    # IO.puts "++++++"
-    # IO.inspect tweet
-    # IO.puts "end"
-    # # IO.inspect socket
-    # username_="Gaurav"
-    # # tweet="as as as as asas"
-    # # reply =  GenServer.call(pid,{:logout,username})
-    # IO.puts reply
+  def handle_in("logout",%{"username" => username_}, socket) do
+    reply =  GenServer.call(Mainserver,{:logout,username_})
     {:reply, :ok, socket}
   end
   #--------------->>>>> COMPLETED <<<<<----------------------
