@@ -14,12 +14,11 @@ defmodule Twi do
     case Enum.member?(users,username) do
       false -> GenServer.start_link(Client,user, name: username)
       # reply_= "User Account : #{username |> to_string} created" 
-      reply_=user
+      reply_ = user
         [username]
       true -> 
-        # reply_="!!! User Account : #{username |> to_string} already exits. Try changing username."
-        reply_=user
-        []
+        reply_="!!! User Account : #{username |> to_string} already exits. Try changing username."
+        # reply_=[]
     end
   {:reply, reply_, %Server{server | users: (users ++ username_)}}
   end
@@ -90,7 +89,7 @@ defmodule Twi do
       nil ->
         "Please enter the correct UserName. Username not found in database"
       _ ->
-        GenServer.cast(:"#{username}",{:send_retweet, tweet})
+        GenServer.call(:"#{username}",{:send_retweet, tweet})
     end
     {:reply,reply_,state}
   end

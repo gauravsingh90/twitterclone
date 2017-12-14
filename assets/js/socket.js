@@ -16,7 +16,7 @@ channel.join()
     var username_ = document.querySelector("#usr").value
     var password_= document.querySelector("#password").value
     channel.push("register", {username: username_,password: password_}).receive(
-      "ok", (reply) => switchToHome(reply.reply)
+      "ok", (reply) => checkForErrors(reply.reply)
      )
   })
 
@@ -26,23 +26,32 @@ channel.join()
     var username_ = document.querySelector("#hidden-user").value
     var tweetContent_ = document.querySelector("#in-tweet-text").value
     channel.push("addTweet", {username: username_,tweet: tweetContent_}).receive(
-      "ok", (reply) => switchToHome(reply.reply)
+      "ok", (reply) => checkForErrors(reply.reply)
      )
 })
 
 //--------------->>>>> RETWEET channel<<<<<---------------------
-// document.getElementsByName("btn_add_retweet").addEventListener('click',function(){
-//   var username_ = document.querySelector("#usr").value
-//   var tweetContent_ = document.querySelector("#addTweetText").value
-//   channel.push("retweet", {username: username_,tweet: tweetContent_})
+document.getElementById("btn_retweet").addEventListener('click',function(){
+  var username_ = document.querySelector("#hidden-user").value
+  if($("input[name='btn-radio']:checked").attr("hidval")!=undefined){
+    var tweetContent_ = $("input[name='btn-radio']:checked").attr("hidval")
+    channel.push("retweet", {username: username_,tweet: tweetContent_}).receive(
+      "ok", (reply) => checkForErrors(reply.reply)
+     )
+  }
+  else
+    alert("Select a tweet from homepage")
 
-// })
+
+})
  
 //--------------->>>>> FOLLOW channel<<<<<----------------------
 document.getElementById("btn_follow").addEventListener('click',function(){
-  var username_ = document.querySelector("#usr").value
-  var to_follow_ = document.querySelector("#addTweetText").value
-  channel.push("follow", {username: username_,to_follow: to_follow_})
+  var username_ = document.querySelector("#hidden-user").value
+  var to_follow_ = document.querySelector("#in-subscribe-to").value
+  channel.push("follow", {username: username_,to_follow: to_follow_}).receive(
+    "ok", (reply) => alert(reply.reply)
+   )
 
 })
 
@@ -50,16 +59,31 @@ document.getElementById("btn_follow").addEventListener('click',function(){
 document.getElementById("btn_login").addEventListener('click',function(){
   var username_ = document.querySelector("#usr").value
   var password_= document.querySelector("#password").value
-  channel.push("login", {username: username_,password: password_})
+  channel.push("login", {username: username_,password: password_}).receive(
+    "ok", (reply) => checkForErrors(reply.reply)
+   )
 })
 //--------------->>>>> LOGOUT channel<<<<<----------------------
 document.getElementById("btn_logout").addEventListener('click',function(){
-  var username_ = document.querySelector("#usr").value
+  var username_ = document.querySelector("#hidden-user").value
   // var password_= document.querySelector("#password").value
-  channel.push("logout", {username: username_})
+  channel.push("logout", {username: username_}).receive(
+    "ok", (reply) => resetpage()
+   )
 })
 
+function resetpage(){
+  location.reload()
+}
 export default socket
+
+function checkForErrors(user){
+  if(typeof user === 'string' || user instanceof String)
+    alert(user)
+  else
+    switchToHome(user)
+  
+}
 
 function generateTweetList(user) {
   $("#ctn-tweets").show();
@@ -78,11 +102,13 @@ function generateTweetList(user) {
 }
 function switchToHome(user) {
   $("#ctn-login").hide();
+  $("#btn_logout").show();
   $("#ctn-landingpage").show();
   $("#div-greet-user").html("Welcome "+user.username)
   $("#hidden-user").val(user.username)
   generateHomepage(user);
-  generateTweetList(user)
+  generateTweetList(user);
+  generateFollowerList(user);
 }
 
 function generateHomepage(user) {
@@ -92,13 +118,26 @@ function generateHomepage(user) {
     for (var x in user.homepage){
       $('#ctn-homepage ul').append(
         $('<li>').append(
-
             // $('<a>').attr('href','/user/messages').append(
-              $('<input>').attr("type", "radio").attr("name","btn-radio").append(
-                $('<span>').append(user.homepage[x])
-              )
-            )
-          // )
+              $('<input>').attr("type", "radio").attr("name","btn-radio").attr("hidval",user.homepage[x])
+            ).append(
+              user.homepage[x]
+          )
+      );   
+    }
+  }
+}
+function generateFollowerList(user) {
+  $("#ctn-followers").show();
+  if(user.followers.length>0){
+    $('#ctn-followers ul').html("");
+    for (var x in user.followers){
+      $('#ctn-followers ul').append(
+        $('<li>').append(
+            // $('<a>').attr('href','/user/messages').append(
+              $('<span>').append(user.followers[x])
+            // )
+          )
       );   
     }
   }

@@ -21,10 +21,10 @@ defmodule Client do
                 homepage_ = existingHomepage ++ existingCacheHomepage
                 mentions_ = existingMentions ++ existingCacheMention
                 user_ = %User{user | online: true, homepage: homepage_ , cacheHomepage: [], mentions: mentions_, cacheMention: []}
-                {:reply,"Login Successful",user_}
+                {:reply,user_,user_}
             else
                 # IO.puts  
-                {:reply,"User Already logged in" ,user}   
+                {:reply,"User Already logged in elsewehere" ,user}   
             end 
         else
             # IO.puts 
@@ -96,13 +96,13 @@ defmodule Client do
     # 
     # 
     # 3 RETWEET
-    def handle_cast({:send_retweet,tweet_text}, %User{username: username, followers: followers, online: onlineStatus, homepage: homepage, tweets: tweets_}= user) do
+    def handle_call({:send_retweet,tweet_text},_from, %User{username: username, followers: followers, online: onlineStatus, homepage: homepage, tweets: tweets_}= user) do
         # IO.puts ("Inside client.ex")
         # Check if the user is online
         if (onlineStatus==false) do
             # Incase user is offine, dont let him tweet
             IO.puts "User is not logged in. Please login before retweeting"
-            {:noreply, user}   
+            {:reply,"User is not logged in. Please login before retweeting", user}   
         end
         # Check if the tweet is present on user's homepage
         retweet_ = 
@@ -120,7 +120,7 @@ defmodule Client do
                         GenServer.cast(x|>String.to_atom,{:add_retweet_to_followers,retweet}) end)
                     [retweet]        
             end
-        {:noreply, %User{user | tweets: (tweets_ ++ retweet_)}}
+        {:reply,%User{user | tweets: (tweets_ ++ retweet_)}, %User{user | tweets: (tweets_ ++ retweet_)}}
     end
 
     def handle_cast({:add_retweet_to_followers,retweet}, %User{homepage: homepage, cacheHomepage: cacheHomepage, online: onlineStatus } = user) do
@@ -147,12 +147,12 @@ defmodule Client do
     def handle_call({:client_follow, follow},_from,%User{username: username, followers: followers_}=user) do
         # IO.inspect follow 
         if Enum.member?(followers_,follow) do
-            {:reply,false,user}
+            {:reply,"Already subscribed!",user}
         else
             # IO.puts "User #{follow} is followed"
             follows_ = [follow]
             user_ = %User{user | followers: (followers_ ++ follows_)}
-            {:reply,true,user_}  
+            {:reply,"You are subscribed",user_}  
         end   
                       
     end

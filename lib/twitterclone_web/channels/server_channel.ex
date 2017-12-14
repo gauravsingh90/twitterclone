@@ -20,7 +20,7 @@ defmodule TwittercloneWeb.ServerChannel do
   end
   #--------------->>>>> ADD RETWEET HANDLE IN <<<<<----------------------
   def handle_in("retweet",%{"username" => username_,"tweet" => tweet_}, socket) do
-    reply_ =  reply = GenServer.call(Mainserver,{:retweet,username_,tweet_})
+    reply_ =  GenServer.call(Mainserver,{:retweet,username_,tweet_})
     {:reply, {:ok,%{reply: reply_}}, socket}
   end
   #--------------->>>>> FOLLOW HANDLE IN <<<<<----------------------
