@@ -1,37 +1,57 @@
 <div class="row">
   <div id="splScreen" class="col-sm-8 offset-sm-2 cl-top-spacer">
     <span class="display-4" id="div-greet-user">Welcome to our twitter clone</span>
+  </div>
+  <label class="col-sm-2 cl-top-spacer" id ="btn_logout">Logout</label>
+</div>
+
+
+<div class="row cl-top-spacer" id="ctn-login" >
+    <label class="col-sm-1 offset-sm-3">Username</label><input  style="margin-bottom: auto;" class="col-sm-4 offset-sm-1" type="text" name="username" id=usr>
+    <span class="cl-top-spacer"></span>
+    <label class="col-sm-1 offset-sm-3 ">Password</label><input  class="col-sm-4 offset-sm-1" type="text" name="password" id=password>
+   
+   <button class="col-sm-1 offset-sm-5 cl-top-spacer" id ="btn_login">Login</button>
+   <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_register">Signup</button> 
+</div>
+
+<%# <div class="row cl-top-spacer" id="ctn-homepage" style="display:none;"> %>
+<div id="ctn-landingpage" class="row" style="display:none;">
+  <div class="col-sm-10">
+    <div class="row cl-top-spacer" id="ctn-sendtweet">
+      <input style="display:none;" id="hidden-user"></input>
+        <label class="col-sm-11 offset-sm-1">Send a Tweet</label>
+        <textarea maxlength="140" class="col-sm-8 offset-sm-1" type="text" name="addTweetText" id="in-tweet-text"></textarea>
+        <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_add_tweet">Send</button> 
     </div>
+    <div class="row cl-top-spacer" id="ctn-homepage">
+        <label class="col-sm-11 offset-sm-1">Here is what other have been up to!</label>
+        <ul class="col-sm-12" id="ul-homepagelist">
+            <span class="offset-sm-3">Nothing really happening. Start by following some users!<span>
+        </ul>
+        <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_get_homepage">Refresh</button> 
+    </div>
+    <div class="row cl-top-spacer" id="ctn-tweets">
+        <label class="col-sm-11 offset-sm-1">Here is what you have posted before!</label>
+        <ul class="col-sm-12" id="ul-tweetlist">
+            <span class="offset-sm-3">Nothing really happening. Start by adding some tweets!<span>
+        </ul>
+        <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_get_tweets">Refresh</button> 
+    </div>
+  </div>
+  <div class="col-sm-2" id="ctn-sidepanel">
+    <div class="row cl-top-spacer" id="ctn-follow">
+        <label class="col-sm-11 offset-sm-1">Subscribe to</label>
+        <input maxlength="140" class="col-sm-12" type="text" name="addTweetText" id=addTweetText></input>
+        <button class="col-sm cl-top-spacer" id="btn_follow">Subscribe!</button> 
+    </div>
+    <div class="row cl-top-spacer" id="ctn-followers">
+        <label class="col-sm-11 offset-sm-1">List of your followers</label>
+        <button class="col-sm cl-top-spacer" id="btn_get_followers">Refresh</button> 
+        <input maxlength="140" class="col-sm-12" type="text" name="addTweetText" id=addTweetText></input>
+        <ul class="col-sm-12" id="ul-tweetlist">
+            <span class="offset-sm-3">Hopefully someone will follow you soon!<span>
+        </ul>
+    </div>
+  </div>
 </div>
-<div class="row cl-top-spacer" id="ctn-login">
-    <label class="col-sm-1 offset-sm-3">Username</label><input  style="margin-bottom: auto;" class="col-sm-4 offset-sm-1" type="text" name="username" id=usr>
-    <span class="cl-top-spacer"></span>
-    <label class="col-sm-1 offset-sm-3 ">Password</label><input  class="col-sm-4 offset-sm-1" type="text" name="password" id=password>
-   
-   <button class="col-sm-1 offset-sm-5 cl-top-spacer" id ="btn_login">Login</button>
-   <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_register">Signup</button> 
-</div>
-
-<div class="row cl-top-spacer" id="ctn-homepage" style="display:none;">
-  <input style="display:none;" id="hidden-user"></input>
-  <span></span>
-    <label class="col-sm-1 offset-sm-3">Username</label><input  style="margin-bottom: auto;" class="col-sm-4 offset-sm-1" type="text" name="username" id=usr>
-    <span class="cl-top-spacer"></span>
-    <label class="col-sm-1 offset-sm-3 ">Password</label><input  class="col-sm-4 offset-sm-1" type="text" name="password" id=password>
-   
-   <button class="col-sm-1 offset-sm-5 cl-top-spacer" id ="btn_login">Login</button>
-   <button class="col-sm-1 offset-sm-1 cl-top-spacer" id="btn_register">Signup</button> 
-</div>
-
-
-
-
-
-
-
-<div id="messages"></div>
-
-
-<button id ="btn_add_tweet"> AddTweet</button>
-<button id ="btn_add_retweet"> ReTweet</button>
-<input id =addTweetText type="text" ></input>

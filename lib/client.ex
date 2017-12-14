@@ -13,7 +13,7 @@ defmodule Client do
     # 
     # 
     # 1 LOGIN   
-    def handle_call({:login_client,password},from,%User{password: stored_password, online: online,cacheHomepage: existingCacheHomepage,homepage: existingHomepage,mentions: existingMentions,cacheMention: existingCacheMention}=user) do
+    def handle_call({:login_client,password},_from,%User{password: stored_password, online: online,cacheHomepage: existingCacheHomepage,homepage: existingHomepage,mentions: existingMentions,cacheMention: existingCacheMention}=user) do
         if(password == stored_password) do
             if (online == false) do
                 # IO.puts "Valid password"
@@ -38,15 +38,15 @@ defmodule Client do
     # 
     # 2 TWEET
 
-    def handle_cast({:add_tweet,tweet},%User{tweets: tweets, followers: followers, online: onlineStatus}=user) do
+    def handle_call({:add_tweet,tweet},_from,%User{tweets: tweets, followers: followers, online: onlineStatus}=user) do
         tweets_= [tweet]
         # IO.puts "Tweet is uploaded"
 
         # Check if the user is online
         if (onlineStatus==false) do
             # Incase user is offine, dont let him tweet
-            IO.puts "User is not logged in. Please login before tweeting"
-            {:noreply, user}   
+            reply_= "User is not logged in. Please login before tweeting"
+            {:reply,reply_, user}   
         end
 
         # In case the user is online find out the mentions and add them to the respective user's mentionlist
@@ -73,7 +73,7 @@ defmodule Client do
             # IO.puts x
             GenServer.cast(:"#{x}",{:add_tweet_to_followers,tweet}) 
         end)
-        {:noreply, %User{user | tweets: (tweets ++ tweets_)}}   
+        {:reply,%User{user | tweets: (tweets ++ tweets_)}, %User{user | tweets: (tweets ++ tweets_)}}   
     end
 
     def handle_cast({:add_tweet_to_followers,tweet}, %User{homepage: existingHomepage, cacheHomepage: existingCacheHomepage,online: onlineStatus}=user) do

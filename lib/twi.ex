@@ -70,7 +70,7 @@ defmodule Twi do
       nil ->
         "Please enter the correct UserName. Username not found in database"
       _ ->
-       GenServer.cast(:"#{username}",{:add_tweet,tweet})  
+       GenServer.call(:"#{username}",{:add_tweet,tweet})  
     end
     {:reply,reply_,state}
   end
