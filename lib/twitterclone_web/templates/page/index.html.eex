@@ -48,10 +48,22 @@
     </div>
     <div class="row cl-top-spacer" id="ctn-followers">
         <label class="col-sm-11 offset-sm-1">List of your followers</label>
-        <button class="col-sm cl-top-spacer" id="btn_get_followers">Refresh</button> 
+      
         <ul class="col-sm-12" id="ul-followerslist">
             <span class="offset-sm-3">Hopefully someone will follow you soon!<span>
         </ul>
+        <%# <button class="col-sm cl-top-spacer" id="btn_get_followers">Refresh</button>  %>
+    </div>
+    <div class="row cl-top-spacer" id="ctn-search">
+        <label class="col-sm-11 offset-sm-1">What are you looking for?</label>
+        <input class="col-sm-12" type="text" id="in-search-term"></input>
+        <button class="col-sm cl-top-spacer" id="btn_mentions">Find Mentions</button>
+        <button class="col-sm cl-top-spacer" id="btn_hastags">Find Hashtag</button> 
+        <label class="col-sm-11 offset-sm-1">Search Results</label>
+        <ul class="col-sm-12" id="ul-searchlist">
+            <span class="offset-sm-3">Search something!<span>
+        </ul>
+        <%# <button class="col-sm cl-top-spacer" id="btn_get_followers">Refresh</button>  %>
     </div>
   </div>
 </div>

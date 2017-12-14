@@ -40,6 +40,17 @@ defmodule TwittercloneWeb.ServerChannel do
     reply_ =  GenServer.call(Mainserver,{:logout,username_})
     {:reply, {:ok,%{reply: reply_}}, socket}
   end
+
+  #--------------->>>>> MENTIONS HANDLE IN <<<<<----------------------
+  def handle_in("mentions",%{"username" => username_}, socket) do
+    reply_ =  GenServer.call(Mainserver,{:fetch_mention,username_})
+    {:reply, {:ok,%{reply: reply_}}, socket}
+  end
+ #--------------->>>>> MENTIONS HANDLE IN <<<<<----------------------
+ def handle_in("hashtags",%{"hashtag" => hashtag_}, socket) do
+  reply_ =  GenServer.call(Mainserver,{:fetch_hashtags,hashtag_})
+  {:reply, {:ok,%{reply: reply_}}, socket}
+end
   #--------------->>>>> COMPLETED <<<<<----------------------
   #--------------->>>>> COMPLETED <<<<<----------------------
 

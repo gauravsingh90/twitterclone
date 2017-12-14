@@ -41,8 +41,6 @@ document.getElementById("btn_retweet").addEventListener('click',function(){
   }
   else
     alert("Select a tweet from homepage")
-
-
 })
  
 //--------------->>>>> FOLLOW channel<<<<<----------------------
@@ -52,7 +50,6 @@ document.getElementById("btn_follow").addEventListener('click',function(){
   channel.push("follow", {username: username_,to_follow: to_follow_}).receive(
     "ok", (reply) => alert(reply.reply)
    )
-
 })
 
 //--------------->>>>> LOGIN channel<<<<<-----------------------
@@ -72,6 +69,31 @@ document.getElementById("btn_logout").addEventListener('click',function(){
    )
 })
 
+//--------------->>>>> MENTION channel<<<<<-----------------------
+document.getElementById("btn_mentions").addEventListener('click',function(){
+  var search = document.querySelector("#in-search-term").value
+  if(search!=""){
+      channel.push("mentions", {username: search}).receive(
+      "ok", (reply) => generateResults(reply.reply)
+    )
+  }else{
+    alert("type something in the input box first.")
+  }
+})
+
+
+//--------------->>>>> MENTION channel<<<<<-----------------------
+document.getElementById("btn_hastags").addEventListener('click',function(){
+  var search = document.querySelector("#in-search-term").value
+  if(search!=""){
+      channel.push("hashtags", {hashtag: "#"+ search}).receive(
+      "ok", (reply) => generateResults(reply.reply)
+    )
+  }else{
+    alert("Type something in the search box first.")
+  }
+})
+
 function resetpage(){
   location.reload()
 }
@@ -84,7 +106,25 @@ function checkForErrors(user){
     switchToHome(user)
   
 }
-
+function generateResults(user){
+  $("#ctn-search").show();
+  if(typeof user === 'string' || user instanceof String)
+  alert(user)
+  else{
+    if(user.length>0){
+      $('#ctn-search ul').html("");
+      for (var x in user){
+        $('#ctn-search ul').append(
+          $('<li>').append(
+              // $('<a>').attr('href','/user/messages').append(
+                $('<span>').append(user[x])
+              // )
+            )
+        );   
+      }
+    }
+  }
+}
 function generateTweetList(user) {
   $("#ctn-tweets").show();
   if(user.tweets.length>0){

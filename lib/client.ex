@@ -24,7 +24,7 @@ defmodule Client do
                 {:reply,user_,user_}
             else
                 # IO.puts  
-                {:reply,"User Already logged in elsewehere" ,user}   
+                {:reply,"User Already logged in elsewehere, signing them off... try logging in again" ,%User{user | online: false}}   
             end 
         else
             # IO.puts 
@@ -205,15 +205,15 @@ defmodule Client do
     # 
     # 1 MENTIONS
   def handle_call(:get_mention,from,%User{online: online,mentions: existingMentions}=user) do
-        if (online == true) do
-            # IO.puts "Valid password"
-            # Sending out the mentions that are present for that user.
-            {:reply,existingMentions,user}
-        else
-            # IO.puts  
-            {:reply,"User not logged in" ,user}   
-        end 
-      
+        # if (online == true) do
+        #     # IO.puts "Valid password"
+        #     # Sending out the mentions that are present for that user.
+        #     
+        # else
+        #     # IO.puts  
+        #     {:reply,"User not logged in" ,user}   
+        # end 
+        {:reply,existingMentions,user}
     end
 
     # 
